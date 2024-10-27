@@ -1,0 +1,5 @@
+__pycache__
+.ipynb_checkpoints
+.cache
+data_aggregation/data/.ipynb_checkpoints
+data_aggregation/.ipynb_checkpoints
