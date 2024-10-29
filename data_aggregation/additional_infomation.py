@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.9.1"
-app = marimo.App()
+app = marimo.App(width="medium")
 
 
 @app.cell
@@ -16,8 +16,8 @@ def __():
 
 app._unparsable_cell(
     r"""
-    SPOTIPY_CLIENT_ID = #Set your own
-    SPOTIPY_CLIENT_SECRET = #Set your own
+    SPOTIPY_CLIENT_ID = #Use your own
+    SPOTIPY_CLIENT_SECRET = #Use your own
     """,
     name="__"
 )
@@ -151,8 +151,6 @@ def __(
         df['Spotify Album External URL'] = None
         df['Spotify Artist Name'] = None
         df['Spotify Artist ID'] = None
-        #df['Spotify Artist Popularity'] = None
-        #df['Spotify Artist Genres'] = None
         df['Spotify Artist External URL'] = None
         df['Spotify Danceability'] = None
         df['Spotify Energy'] = None
@@ -215,8 +213,8 @@ def __(
         df.to_csv(output_csv, index=False)
 
     if __name__ == "__main__":
-        input_csv = 'data_aggregation/data/swr_hitparade_raw.csv'  # Input CSV file
-        output_csv = 'swr_hitparade_2022_2024_spotify_data.csv'  # Output CSV file
+        input_csv = 'swr_is_null.csv'  # Input CSV file
+        output_csv = 'swr_is_null_spotify_data.csv'  # Output CSV file
         main(input_csv, output_csv)
     return (
         client_credentials_manager,
