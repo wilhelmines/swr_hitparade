@@ -11,6 +11,7 @@ pkgs.mkShell {
     python312Packages.spotipy
     python312Packages.bokeh
     python312Packages.marimo
+    python312Packages.altair
   ];
 
 PYTHONPATH = "$PWD";  # Sets the current directory in the Python path
