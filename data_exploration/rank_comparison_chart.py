@@ -14,7 +14,7 @@ def __():
 
 @app.cell
 def __(pd):
-    df = pd.read_csv('data_aggregation/data/swr_hitparade_raw.csv')
+    df = pd.read_csv('data_aggregation/data/swr_hitparade_2022_2024_spotify_data.csv')
     return (df,)
 
 
@@ -67,29 +67,44 @@ def __(chart_bar):
 
 
 @app.cell
-def __(df):
-    df_2 = df[(df['Rank_2022'] <= 100) | (df['Rank_2023'] <= 100) | (df['Rank_2024'] <= 100)]
-    return (df_2,)
-
-
-@app.cell
 def __(alt, df):
-    chart_line = alt.Chart(df).transform_window(
+    df_chart_line = df.rename(columns={'Rank_2022': '2022', 'Rank_2023': '2023', 'Rank_2024': '2024'})
+
+    chart_line = alt.Chart(df_chart_line).transform_window(
         index='count()'
     ).transform_fold(
-        ['Rank_2022', 'Rank_2023', 'Rank_2024']
-    ).mark_line().encode(
-        x='key:N',
-        y='value:Q',
-        color='Spotify_Duration_(ms):N',
+        ['2022', '2023', '2024']
+    ).mark_line(point=True).encode(
+        x=alt.X(
+            'key:O',
+            title='Year',
+            scale=alt.Scale(
+                padding=0.05
+            )
+        ),
+        y= alt.Y(
+            'value:Q',
+            title='Rank',
+            scale=alt.Scale(domain = (0, 1072))
+        ),
+        color=alt.Color(
+            'Title:N',
+            legend=alt.Legend(
+                title='Title',
+                symbolLimit=0,
+            )
+        ),
         detail='index:N',
-        opacity=alt.value(0.5)
+        opacity=alt.value(0.6),
+        tooltip=[alt.Tooltip('Artist:N'),
+                 alt.Tooltip('Title:N'),
+                 alt.Tooltip('value:Q')],
     ).properties(
-        height=6000,
+        height=19275,
         width=1700,
         title="Platzierungen der Songs in der SWR-Hitparade",
         padding={"left": 0, "top": 15, "right": 15, "bottom": 15})
-    return (chart_line,)
+    return chart_line, df_chart_line
 
 
 @app.cell
