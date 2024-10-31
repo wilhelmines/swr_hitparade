@@ -1,14 +1,15 @@
 import marimo
 
 __generated_with = "0.9.1"
-app = marimo.App(width="medium")
+app = marimo.App(width="full")
 
 
 @app.cell
 def __():
     import pandas as pd
     import altair as alt
-    return alt, pd
+    import plotly.express as px
+    return alt, pd, px
 
 
 @app.cell
@@ -42,7 +43,7 @@ def __(df_counts):
 
 @app.cell
 def __(alt, df_counts_merged):
-    chart = alt.Chart(df_counts_merged).mark_bar().encode(
+    chart_bar = alt.Chart(df_counts_merged).mark_bar().encode(
         y=alt.Y('Artist:N', sort='-x', title=''),  # Sorting by total appearances
         x=alt.X('sum(Appearances):Q', title='Number of Appearances'),
         color=alt.Color('Year:N', scale=alt.Scale(scheme='tableau20'), title='Year'),
@@ -56,12 +57,44 @@ def __(alt, df_counts_merged):
         title="Absolute Häufigkeit der Songs, gruppiert nach Künstler*innen, in der SWR1-Hitparade",
         padding={"left": 0, "top": 15, "right": 15, "bottom": 15}
     )
-    return (chart,)
+    return (chart_bar,)
 
 
 @app.cell
-def __(chart):
-    chart
+def __(chart_bar):
+    chart_bar
+    return
+
+
+@app.cell
+def __(df):
+    df_2 = df[(df['Rank_2022'] <= 100) | (df['Rank_2023'] <= 100) | (df['Rank_2024'] <= 100)]
+    return (df_2,)
+
+
+@app.cell
+def __(alt, df):
+    chart_line = alt.Chart(df).transform_window(
+        index='count()'
+    ).transform_fold(
+        ['Rank_2022', 'Rank_2023', 'Rank_2024']
+    ).mark_line().encode(
+        x='key:N',
+        y='value:Q',
+        color='Spotify_Duration_(ms):N',
+        detail='index:N',
+        opacity=alt.value(0.5)
+    ).properties(
+        height=6000,
+        width=1700,
+        title="Platzierungen der Songs in der SWR-Hitparade",
+        padding={"left": 0, "top": 15, "right": 15, "bottom": 15})
+    return (chart_line,)
+
+
+@app.cell
+def __(chart_line):
+    chart_line
     return
 
 

@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.9.1"
-app = marimo.App(width="medium")
+app = marimo.App(width="full")
 
 
 @app.cell
@@ -21,7 +21,7 @@ def __(pd):
 @app.cell
 def __(data):
     # Creating the Marimo selector for year
-    data_long = data.melt(id_vars='Spotify Duration (ms)', 
+    data_long = data.melt(id_vars='Spotify_Duration_(ms)', 
                           value_vars=['Rank_2022', 'Rank_2023', 'Rank_2024'],
                           var_name='Rank Year', 
                           value_name='Rank')
@@ -29,27 +29,25 @@ def __(data):
 
 
 @app.cell
-def __(alt):
-    brush = alt.selection_interval(encodings=["x"])
-    return (brush,)
-
-
-@app.cell
-def __(alt, brush, data_long, mo):
+def __(alt, data_long, mo):
     #Altair chart
     chart = alt.Chart(data_long).mark_circle().encode(
         x=alt.X('Rank:Q', title='Rank'),
-        y=alt.Y('Spotify Duration (ms):Q', title='Duration (seconds)', 
+        y=alt.Y('Spotify_Duration_(ms):Q', title='Duration (seconds)', 
                 scale=alt.Scale(zero=False),
                 axis=alt.Axis(format='.1f')),
         color='Rank Year:N',
-        tooltip=['Rank Year:N', 'Rank', 'Spotify Duration (ms)']
+        tooltip=['Rank Year:N', 'Rank', 'Spotify_Duration_(ms)']
     ).transform_calculate(
         # Convert duration to seconds
-        duration_seconds="datum['Spotify Duration (ms)'] / 1000"
+        duration_seconds="datum['Spotify_Duration_(ms)'] / 1000"
     ).encode(
         y='duration_seconds:Q'
-    ).add_params(brush)
+    ).properties(
+        width=1700,
+        height=500,
+        title = 'Song duration and rank of SWR Hitparade Songs (2022-2024)'
+    )
 
     # marimo chart
     chart = mo.ui.altair_chart(chart)
@@ -60,14 +58,6 @@ def __(alt, brush, data_long, mo):
 def __(chart):
     chart
     return
-
-
-app._unparsable_cell(
-    r"""
-    pip install \"vegafusion[embed]>=1.4.0\"
-    """,
-    name="__"
-)
 
 
 @app.cell
