@@ -8,8 +8,8 @@ app = marimo.App(width="full")
 def __():
     import pandas as pd
     import altair as alt
-    import plotly.express as px
-    return alt, pd, px
+    import altair as alt
+    return alt, pd
 
 
 @app.cell
@@ -90,7 +90,7 @@ def __(alt, df):
         color=alt.Color(
             'Title:N',
             legend=alt.Legend(
-                title='Title',
+                title='Song',
                 symbolLimit=0,
             )
         ),
