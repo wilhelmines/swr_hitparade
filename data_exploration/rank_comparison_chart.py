@@ -8,7 +8,6 @@ app = marimo.App(width="full")
 def __():
     import pandas as pd
     import altair as alt
-    import altair as alt
     return alt, pd
 
 
@@ -45,7 +44,7 @@ def __(df_counts):
 def __(alt, df_counts_merged):
     chart_bar = alt.Chart(df_counts_merged).mark_bar().encode(
         y=alt.Y('Artist:N', sort='-x', title=''),  # Sorting by total appearances
-        x=alt.X('sum(Appearances):Q', title='Number of Appearances'),
+        x=alt.X('sum(Appearances):Q', title='Anzahl der Songs'),
         color=alt.Color('Year:N', scale=alt.Scale(scheme='tableau20'), title='Year'),
         tooltip=[alt.Tooltip('Artist:N'),
                  alt.Tooltip('Year:N'),
@@ -54,8 +53,11 @@ def __(alt, df_counts_merged):
     ).properties(
         width=800,
         height=9000,
-        title="Absolute Häufigkeit der Songs, gruppiert nach Künstler*innen, in der SWR1-Hitparade",
-        padding={"left": 0, "top": 15, "right": 15, "bottom": 15}
+        title=alt.Title(
+            "Absolute Häufigkeit der Songs in der SWR1-Hitparade, gruppiert nach Künstler*innen",
+            subtitle="Erstellt von github.com/wilhelmines, Datenquelle: swr-vote.de"
+        ),
+        padding={"left": 0, "top": 15, "right": 15, "bottom": 15},
     )
     return (chart_bar,)
 
@@ -102,7 +104,10 @@ def __(alt, df):
     ).properties(
         height=19275,
         width=1700,
-        title="Platzierungen der Songs in der SWR-Hitparade",
+        title=alt.Title(
+            "Platzierungen der Songs in der SWR1-Hitparade",
+            subtitle="Erstellt von github.com/wilhelmines, Datenquelle: swr-vote.de"
+        ),
         padding={"left": 0, "top": 15, "right": 15, "bottom": 15})
     return chart_line, df_chart_line
 
