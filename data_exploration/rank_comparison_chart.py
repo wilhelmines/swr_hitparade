@@ -139,9 +139,8 @@ def __(alt, df, rank_data):
 
     # Base chart
     base = alt.Chart(rank_data).mark_circle().encode(
-        x=alt.X('Rank:N', title='Ranking', sort='ascending', scale=alt.Scale(reverse=False),
-               axis=alt.Axis(labelOverlap='parity', tickCount=10)),
-        y=alt.Y('Spotify_Popularity:Q', title='Spotify Popularity', axis=alt.Axis(tickCount=10)),
+        x=alt.X('Rank:N', title='Ranking', sort='ascending', scale=alt.Scale(reverse=False),axis=alt.Axis(labelOverlap='parity', tickCount=10)),
+        y=alt.Y('Spotify_Popularity:Q', title='Spotify Popularity', axis=alt.Axis(tickCount=10),scale=alt.Scale(domain = (0, 100))),
         color=alt.condition(
             alt.datum.Artist == artist_param, alt.value('red'), alt.value('steelblue')
         ),
@@ -156,7 +155,6 @@ def __(alt, df, rank_data):
         (alt.datum.Year == year_param) & (alt.datum.Rank != None)  # Filters out null ranks for the selected year
     )
 
-    # Display the chart
     base.properties(
         width=1600,
         height=800,
@@ -167,6 +165,12 @@ def __(alt, df, rank_data):
         ),
     )
     return artist_param, base, year_param
+
+
+@app.cell
+def __():
+    #base.save('rank_vs_pop.html')
+    return
 
 
 @app.cell
