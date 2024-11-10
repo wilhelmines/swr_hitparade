@@ -22,7 +22,10 @@ def __(mo):
         - Usage of spotify parameter
             - Album/Single
             - Explicit
-            - Popularity  
+            - Popularity
+        - distribution of artists with many songs
+        - Tool where I can select an artist and it highlights their songs
+
         ...
         """
     )

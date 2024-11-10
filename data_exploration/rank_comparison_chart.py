@@ -119,6 +119,57 @@ def __(chart_line):
 
 
 @app.cell
+def __(df):
+    # Melt the data so we have a single "Rank" column
+    rank_data = df.melt(id_vars=['Artist', 'Title', 'Spotify_Popularity'],
+                          value_vars=['Rank_2022', 'Rank_2023', 'Rank_2024'],
+                          var_name='Year', value_name='Rank')
+    return (rank_data,)
+
+
+@app.cell
+def __(alt, df, rank_data):
+    # Parameters for dropdown selection
+    year_param = alt.param(
+        name="year_param", bind=alt.binding_select(options=['Rank_2022', 'Rank_2023', 'Rank_2024'], name='Select Ranking Year:')
+    )
+    artist_param = alt.param(
+        name="artist_param", bind=alt.binding_select(options=[None] + sorted(df['Artist'].unique().tolist()), name='Select Artist:')
+    )
+
+    # Base chart
+    base = alt.Chart(rank_data).mark_circle().encode(
+        x=alt.X('Rank:N', title='Ranking', sort='ascending', scale=alt.Scale(reverse=False),
+               axis=alt.Axis(labelOverlap='parity', tickCount=10)),
+        y=alt.Y('Spotify_Popularity:Q', title='Spotify Popularity', axis=alt.Axis(tickCount=10)),
+        color=alt.condition(
+            alt.datum.Artist == artist_param, alt.value('red'), alt.value('steelblue')
+        ),
+        size=alt.condition(
+            alt.datum.Artist == artist_param, alt.value(100), alt.value(30)
+        ),
+        tooltip=['Artist', 'Title', 'Year', 'Rank', 'Spotify_Popularity']
+    ).add_params(
+        year_param,
+        artist_param
+    ).transform_filter(
+        (alt.datum.Year == year_param) & (alt.datum.Rank != None)  # Filters out null ranks for the selected year
+    )
+
+    # Display the chart
+    base.properties(
+        width=1600,
+        height=800,
+        padding={"left": 20, "top": 10, "right": 15, "bottom": 20},
+        title=alt.Title(
+            "Vergleich von 'Spotify Popularity' und Platzierungen der Songs in der SWR1-Hitparade",
+            subtitle="Erstellt von github.com/wilhelmines, Datenquelle: swr-vote.de"
+        ),
+    )
+    return artist_param, base, year_param
+
+
+@app.cell
 def __():
     return
 
