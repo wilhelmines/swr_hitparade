@@ -6,6 +6,8 @@ Da es sich um einen Radiosender der Öffentlich-Rechtlichen handelt, ist die Dok
 
 Neben den Grafiken auf dieser Seite, lassen sich weitere unter /visualizations finden. Eigene Grafiken können auf Basis der Skripte in den anderen Ordnern erstellt werden.
 
+Weiterverbreitung bitte nur unter Angabe der Quelle.
+
 ![Diagramm, dass die Position eines Songs in der SWR1-Hitparade über die Jahre 2022-2024 zeigt.](/visualizations/rank_over_years_with_title.svg?raw=true)
 
 ![Absolute Anzahl der Songs eines artist in der SWR1-Hitparade in den Jahren 2022-2024](/visualizations/abs_amount_songs_grouped_by_artist.svg?raw=true)
