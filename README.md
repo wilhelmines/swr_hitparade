@@ -27,3 +27,7 @@ Weitere Grafiken werde ich nach Lust und Laune erstellen und ergänzen.
 ### Länge der Songs geordnet nach Rang, eingefärbt nach Jahr
 
 ![Länge der Songs in Sekunden, geordnet nach Rang und eingefärbt nach Jahr](/visualizations/song_length_over_year.svg?raw=true)
+
+### Kummulierte Anzahl der Songs gruppiert nach Album für die Jahre 2022-2024
+
+![Absolute Anzahl der Songs gruppiert nach Album in der SWR1-Hitparade in den Jahren 2022-2024](/visualizations/abs_amount_songs_grouped_by_album.svg?raw=true)
