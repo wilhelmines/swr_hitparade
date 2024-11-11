@@ -21,7 +21,7 @@ def __(pd):
 @app.cell
 def __(data):
     # Creating the Marimo selector for year
-    data_long = data.melt(id_vars='Spotify_Duration_(ms)', 
+    data_long = data.melt(id_vars=['Artist','Title','Spotify_Duration_(ms)'], 
                           value_vars=['Rank_2022', 'Rank_2023', 'Rank_2024'],
                           var_name='Rank Year', 
                           value_name='Rank')
@@ -32,7 +32,7 @@ def __(data):
 def __(alt, data_long, mo):
     #Altair chart
     chart = alt.Chart(data_long).mark_circle().encode(
-        x=alt.X('Rank:Q', title='Rank'),
+        x=alt.X('Rank:Q', title='Rank',scale=alt.Scale(domain = (0, 1072))),
         y=alt.Y('Spotify_Duration_(ms):Q', title='Duration (seconds)', 
                 scale=alt.Scale(zero=False),
                 axis=alt.Axis(format='.1f')),
@@ -42,11 +42,15 @@ def __(alt, data_long, mo):
         # Convert duration to seconds
         duration_seconds="datum['Spotify_Duration_(ms)'] / 1000"
     ).encode(
-        y='duration_seconds:Q'
+        y='duration_seconds:Q',
+            tooltip=[alt.Tooltip('Artist:N'),
+                alt.Tooltip('Title:N'),
+                 alt.Tooltip('Rank:N'),]
     ).properties(
         width=1700,
         height=500,
-        title = 'Song duration and rank of SWR Hitparade Songs (2022-2024)'
+        title = alt.Title("Songlänge und Rang in der SWR1-Hitparade für 2022-2024",
+                          subtitle = "Erstellt von github.com/wilhelmines, Datenquelle: swr-vote.de"),
     )
 
     # marimo chart
