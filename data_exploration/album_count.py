@@ -46,7 +46,7 @@ def __(alt, df_counts_merged):
     chart_bar = alt.Chart(df_counts_merged).mark_bar().encode(
         y=alt.Y('Spotify_Album_Name:N', sort='-x', title=''),  # Sorting by total appearances
         x=alt.X('sum(Appearances):Q', title='Anzahl der Songs'),
-        color=alt.Color('Year:N', scale=alt.Scale(scheme='tableau20'), title='Year'),
+        color=alt.Color('Year:N', scale=alt.Scale(scheme='tableau20'), title='Jahr'),
         tooltip=[alt.Tooltip('Spotify_Album_Name:N'),
                  alt.Tooltip('Year:N'),
                  alt.Tooltip('Appearances:Q'),
