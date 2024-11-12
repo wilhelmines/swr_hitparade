@@ -79,20 +79,20 @@ def __(alt, df):
     ).mark_line(point=True).encode(
         x=alt.X(
             'key:O',
-            title='Year',
+            title='Jahr',
             scale=alt.Scale(
                 padding=0.05
             )
         ),
         y= alt.Y(
             'value:Q',
-            title='Rank',
+            title='Rang',
             scale=alt.Scale(domain = (0, 1072))
         ),
         color=alt.Color(
             'Title:N',
             legend=alt.Legend(
-                title='Song',
+                title='Titel',
                 symbolLimit=0,
             )
         ),
@@ -105,7 +105,7 @@ def __(alt, df):
         height=19275,
         width=1700,
         title=alt.Title(
-            "Platzierungen der Songs in der SWR1-Hitparade",
+            "Platzierungen der Songs in der SWR1-Hitparade für die Jahr 2022-2024",
             subtitle="Erstellt von github.com/wilhelmines, Datenquelle: swr-vote.de"
         ),
         padding={"left": 0, "top": 15, "right": 15, "bottom": 15})
